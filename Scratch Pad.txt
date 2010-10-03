@@ -1,0 +1,25 @@
+========== Mysql recreate db =================================
+mysql -uroot -e "drop database if exists blazy_test"
+mysql -uroot -e "create database if not exists blazy_test"
+mysql -uroot -D blazy_test -e "show tables"
+
+
+===============To Do===========================================
+1.person 2.people
+top.3.people
+last.3.people
+all.people
+
+Person.age 20..30
+Person.name foobar
+Person.name like('%foo%')
+
+
+=====================method_missing=====================
+  def method_missing(method, *args, &block)
+    p "Missing #{method}"
+    # super
+  end
+
+===================FIND OUT WHY===============================================================
+1> config.use_transactional_fixtures = true -->does not work? lib folder?

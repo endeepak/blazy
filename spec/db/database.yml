@@ -1,0 +1,9 @@
+sqlite3:
+  adapter: sqlite3
+  database: blazy_test.db
+mysql:
+  adapter: mysql
+  host: localhost
+  username: root
+  password:
+  database: blazy_test

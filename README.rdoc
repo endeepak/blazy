@@ -1,0 +1,19 @@
+== Description
+
+Blazy read as be_lazy is a handy extension to active record models meant to be used in script/console
+
+== Install
+
+Install the gem with:
+
+    sudo gem install blazy   #Note: If you are using rvm to manage ruby versions don't use sudo
+
+== Examples
+
+If you have a model Project.You can use
+
+1.project or 2.projects to list projects
+
+== Recommended gems as extensions to scrip/console
+Wirble
+Hirb
