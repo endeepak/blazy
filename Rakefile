@@ -14,8 +14,8 @@ task :default => ["spec"]
 spec = Gem::Specification.new do |s|
   s.name              = "blazy"
   s.version           = "0.1.0"
-  s.summary           = "Provides useful methods and aliases in script/console"
-  s.description       = "Provides useful methods and aliases in script/console. Gives short name to active record models to make life easier"
+  s.summary           = "Provides extension to active record models"
+  s.description       = "Blazy read as be_lazy is a handy extension to active record models meant to be used in script/console"
   s.author            = "Deepak N"
   s.email             = "endeep123@gmail.com"
   s.homepage          = "http://github.com/endeepak/blazy"
@@ -24,7 +24,10 @@ spec = Gem::Specification.new do |s|
   s.rdoc_options      = %w(--main README.rdoc)
   s.files             = %w(Rakefile README.rdoc) + Dir.glob("{spec,lib/**/*}")
   s.require_paths     = ["lib"]
-  s.add_development_dependency(['rspec','activerecord','factory_girl'])
+  s.add_development_dependency('rspec')
+  s.add_development_dependency('activerecord')
+  s.add_development_dependency('active_support')
+  s.add_development_dependency('factory_girl')
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
