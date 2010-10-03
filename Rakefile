@@ -13,9 +13,9 @@ task :default => ["spec"]
 
 spec = Gem::Specification.new do |s|
   s.name              = "blazy"
-  s.version           = "0.1.0"
-  s.summary           = "Provides extension to active record models"
-  s.description       = "Blazy read as be_lazy is a handy extension to active record models meant to be used in script/console"
+  s.version           = "0.1.1"
+  s.summary           = "Provides fluent extension to active record models"
+  s.description       = "Blazy read as be_lazy is a fluent extension to active record models and meant only to be used in script/console"
   s.author            = "Deepak N"
   s.email             = "endeep123@gmail.com"
   s.homepage          = "http://github.com/endeepak/blazy"

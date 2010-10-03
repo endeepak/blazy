@@ -8,12 +8,34 @@ Install the gem with:
 
     sudo gem install blazy   #Note: If you are using rvm to manage ruby versions don't use sudo
 
+== Usage
+
+Go to script/console in your rails project and type
+
+require 'blazy'
+
+you are ready to go!!
+
 == Examples
 
-If you have a model Project.You can use
+If you have a model Project.
 
-1.project or 2.projects to list projects
+	1.project or 2.projects to list projects
 
-== Recommended gems as extensions to scrip/console
+	Project-11 to get project with id 11
+
+== Work in progress
+
+	Searching a project as
+
+	Project.with_name('blazy') or 5.projects.with_name_like('%zy')
+
+	Chaining
+
+	5.projects.with_priority(3..5).not_completed
+
+== Other useful gems in script/console
+
 Wirble
+
 Hirb

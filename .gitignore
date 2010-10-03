@@ -1,3 +1,5 @@
 *.gem
+*.gemspec
+ScratchPad.txt
 pkg
 rdoc
