@@ -13,8 +13,7 @@ all.people
 Person.age 20..30
 Person.name foobar
 Person.name like('%foo%')
-
-
+--load all models in init
 =====================method_missing=====================
   def method_missing(method, *args, &block)
     p "Missing #{method}"

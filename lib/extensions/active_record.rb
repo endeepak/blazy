@@ -13,7 +13,7 @@ module Blazy
         end
 
         def add_extension_to_fixnum
-          downcased_model_name = self.class_name.underscore
+          downcased_model_name = self.name.demodulize.underscore
           pluralized_downcased_model_name = downcased_model_name.pluralize
           definition = <<-METHOD_DEFINITION
                             class ::Fixnum

@@ -17,9 +17,37 @@ describe "ActiveRecord extensions" do
     end
   end
 
-  describe "for existing inheritors of class" do
+  describe "for new second level inheritors of class" do
     before(:each) do
-      class Foo; def self.subclasses; [Bar] ; end; end
+      class Booga < ActiveModel ; end
+      Booga.send(:include, Blazy::Extensions::ActiveRecord)
+      class Foo < Booga ; end
+      class Bar < Foo; end;
+    end
+
+    after(:each) do
+      remove_constants(:Booga, :Foo, :Bar)
+    end
+
+    it "should find 1 model" do
+      model = Bar.new
+      Bar.expects(:find).with(:first, :limit => 1).returns(model)
+
+      1.bar.should == model
+    end
+
+    it "should find multiple models" do
+      model_1 = Bar.new
+      model_2 = Bar.new
+      Bar.expects(:find).with(:all, :limit => 2).returns([model_1,model_2])
+
+      2.bars.should == [model_1,model_2]
+    end
+  end
+
+  describe "for existing first level inheritors of class" do
+    before(:each) do
+      class Foo < ActiveModel ; end
       class Bar < Foo; end;
       Foo.send(:include, Blazy::Extensions::ActiveRecord)
     end
@@ -44,9 +72,37 @@ describe "ActiveRecord extensions" do
     end
   end
 
+  describe "for existing second level inheritors of class" do
+    before(:each) do
+      class Booga < ActiveModel ; end
+      class Foo < Booga ; end
+      class Bar < Foo; end;
+      Booga.send(:include, Blazy::Extensions::ActiveRecord)
+    end
+
+    after(:each) do
+      remove_constants(:Booga, :Foo, :Bar)
+    end
+
+    it "should find 1 model" do
+      model = Bar.new
+      Bar.expects(:find).with(:first, :limit => 1).returns(model)
+
+      1.bar.should == model
+    end
+
+    it "should find multiple models" do
+      model_1 = Bar.new
+      model_2 = Bar.new
+      Bar.expects(:find).with(:all, :limit => 2).returns([model_1,model_2])
+
+      2.bars.should == [model_1,model_2]
+    end
+  end
+
   describe "for camel case named inheritors" do
     before(:each) do
-      class ModelClass; def self.subclasses; [ModelSubClass] ; end; end
+      class ModelClass < ActiveModel; end
       class ModelSubClass < ModelClass; end;
       ModelSubClass.send(:include, Blazy::Extensions::ActiveRecord)
     end
@@ -74,7 +130,7 @@ describe "ActiveRecord extensions" do
   describe "for inheritors not in defualt name space" do
     before(:each) do
       module Booga
-        class Foo; def self.subclasses; [Bar] ; end; end
+        class Foo < ActiveModel; end
         class Bar < Foo; end;
       end
       Booga::Foo.send(:include, Blazy::Extensions::ActiveRecord)

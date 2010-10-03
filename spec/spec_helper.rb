@@ -2,6 +2,7 @@ require 'spec'
 require 'rubygems'
 require 'active_record'
 require 'factory_girl'
+require File.dirname(__FILE__)+ '/active_model'
 
 Dir["#{File.expand_path(File.dirname(__FILE__) + '/../lib/*.rb')}"].each { |file|  require file }
 
