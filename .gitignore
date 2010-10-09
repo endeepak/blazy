@@ -1,5 +1,6 @@
 *.gem
 *.gemspec
+*.log
 ScratchPad.txt
 pkg
 rdoc
