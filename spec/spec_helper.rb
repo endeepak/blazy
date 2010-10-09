@@ -1,5 +1,7 @@
-require 'spec'
 require 'rubygems'
+gem 'factory_girl', '=1.2.4'
+
+require 'spec'
 require 'active_record'
 require 'factory_girl'
 require File.dirname(__FILE__)+ '/active_model'
