@@ -19,8 +19,7 @@ module Blazy
             definition = <<-METHOD_DEFINITION
                               class ::Fixnum
                                 def #{underscored_model_name}
-                                  record_to_find = self==1 ? :first : :all
-                                  #{self}.find(record_to_find, :limit => self)
+                                  #{self}.limit(self)
                                 end
                                 alias #{pluralized_underscored_model_name} #{underscored_model_name}
                               end

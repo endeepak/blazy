@@ -1,15 +1,30 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
+describe "FixnumExtension", :shared => true do
+  it "should limit to single model" do
+    scope = mock("scope")
+    klass.expects(:limit).with(1).returns(scope)
+
+    eval("1.#{model}").should == scope
+  end
+
+  it "should limit to multiple models" do
+    scope = mock("scope")
+    klass.expects(:limit).with(2).returns(scope)
+
+    eval("2.#{models}").should == scope
+  end
+end
+
 describe "ActiveRecord Fixnum extensions" do
   describe "for new inheritors of active record" do
-    it "should find 1 model" do
+    it "should limit to single model" do
        project = Factory(:project)
 
-       1.project.should_not be_nil
-       1.project.id.should == project.id
+       1.project.collect(&:id).should == [project.id]
     end
 
-    it "should find multiple models" do
+    it "should limit to multiple models" do
        project_1 = Factory(:project)
        project_2 = Factory(:project)
 
@@ -18,58 +33,40 @@ describe "ActiveRecord Fixnum extensions" do
   end
 
   describe "for new second level inheritors of class" do
-    before(:each) do
+    before(:all) do
       class Booga < ActiveModel ; end
       Booga.send(:include, Blazy::Extensions::ActiveRecord)
       class Foo < Booga ; end
       class Bar < Foo; end;
     end
 
-    after(:each) do
+    after(:all) do
       remove_constants(:Booga, :Foo, :Bar)
     end
 
-    it "should find 1 model" do
-      model = Bar.new
-      Bar.expects(:find).with(:first, :limit => 1).returns(model)
+    def klass; Bar; end;
+    def model; "bar"; end;
+    def models; "bars"; end;
 
-      1.bar.should == model
-    end
-
-    it "should find multiple models" do
-      model_1 = Bar.new
-      model_2 = Bar.new
-      Bar.expects(:find).with(:all, :limit => 2).returns([model_1,model_2])
-
-      2.bars.should == [model_1,model_2]
-    end
+    it_should_behave_like "FixnumExtension"
   end
 
   describe "for existing first level inheritors of class" do
-    before(:each) do
+    before(:all) do
       class Foo < ActiveModel ; end
       class Bar < Foo; end;
       Foo.send(:include, Blazy::Extensions::ActiveRecord)
     end
 
-    after(:each) do
+    after(:all) do
       remove_constants(:Foo, :Bar)
     end
 
-    it "should find 1 model" do
-      model = Bar.new
-      Bar.expects(:find).with(:first, :limit => 1).returns(model)
+    def klass; Bar; end;
+    def model; "bar"; end;
+    def models; "bars"; end;
 
-      1.bar.should == model
-    end
-
-    it "should find multiple models" do
-      model_1 = Bar.new
-      model_2 = Bar.new
-      Bar.expects(:find).with(:all, :limit => 2).returns([model_1,model_2])
-
-      2.bars.should == [model_1,model_2]
-    end
+    it_should_behave_like "FixnumExtension"
   end
 
   describe "for existing second level inheritors of class" do
@@ -84,20 +81,11 @@ describe "ActiveRecord Fixnum extensions" do
       remove_constants(:Booga, :Foo, :Bar)
     end
 
-    it "should find 1 model" do
-      model = Bar.new
-      Bar.expects(:find).with(:first, :limit => 1).returns(model)
+    def klass; Bar; end;
+    def model; "bar"; end;
+    def models; "bars"; end;
 
-      1.bar.should == model
-    end
-
-    it "should find multiple models" do
-      model_1 = Bar.new
-      model_2 = Bar.new
-      Bar.expects(:find).with(:all, :limit => 2).returns([model_1,model_2])
-
-      2.bars.should == [model_1,model_2]
-    end
+    it_should_behave_like "FixnumExtension"
   end
 
   describe "for camel case named inheritors" do
@@ -111,20 +99,11 @@ describe "ActiveRecord Fixnum extensions" do
       remove_constants(:ModelClass, :ModelSubClass)
     end
 
-    it "should find 1 model" do
-      model = ModelSubClass.new
-      ModelSubClass.expects(:find).with(:first, :limit => 1).returns(model)
+    def klass; ModelSubClass; end;
+    def model; "model_sub_class"; end;
+    def models; "model_sub_classes"; end;
 
-      1.model_sub_class.should == model
-    end
-
-    it "should find multiple models" do
-      model_1 = ModelSubClass.new
-      model_2 = ModelSubClass.new
-      ModelSubClass.expects(:find).with(:all, :limit => 2).returns([model_1,model_2])
-
-      2.model_sub_classes.should == [model_1,model_2]
-    end
+    it_should_behave_like "FixnumExtension"
   end
 
   describe "for inheritors not in defualt name space" do
@@ -140,19 +119,10 @@ describe "ActiveRecord Fixnum extensions" do
       remove_constants(:Booga)
     end
 
-    it "should find 1 model" do
-      model = Booga::Bar.new
-      Booga::Bar.expects(:find).with(:first, :limit => 1).returns(model)
+    def klass; Booga::Bar; end;
+    def model; "bar"; end;
+    def models; "bars"; end;
 
-      1.bar.should == model
-    end
-
-    it "should find multiple models" do
-      model_1 = Booga::Bar.new
-      model_2 = Booga::Bar.new
-      Booga::Bar.expects(:find).with(:all, :limit => 2).returns([model_1,model_2])
-
-      2.bars.should == [model_1,model_2]
-    end
+    it_should_behave_like "FixnumExtension"
   end
 end
