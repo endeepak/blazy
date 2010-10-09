@@ -33,14 +33,14 @@ describe "ActiveRecord Fixnum extensions" do
   end
 
   describe "for new second level inheritors of class" do
-    before(:all) do
+    before(:each) do
       class Booga < ActiveModel ; end
-      Booga.send(:include, Blazy::Extensions::ActiveRecord)
+      Booga.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
       class Foo < Booga ; end
       class Bar < Foo; end;
     end
 
-    after(:all) do
+    after(:each) do
       remove_constants(:Booga, :Foo, :Bar)
     end
 
@@ -52,13 +52,13 @@ describe "ActiveRecord Fixnum extensions" do
   end
 
   describe "for existing first level inheritors of class" do
-    before(:all) do
-      class Foo < ActiveModel ; end
+    before(:each) do
+      class Foo; def self.subclasses; [Bar] end; end
       class Bar < Foo; end;
-      Foo.send(:include, Blazy::Extensions::ActiveRecord)
+      Foo.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
     end
 
-    after(:all) do
+    after(:each) do
       remove_constants(:Foo, :Bar)
     end
 
@@ -71,10 +71,10 @@ describe "ActiveRecord Fixnum extensions" do
 
   describe "for existing second level inheritors of class" do
     before(:each) do
-      class Booga < ActiveModel ; end
+      class Booga; def self.subclasses; [Foo, Bar] end; end
       class Foo < Booga ; end
       class Bar < Foo; end;
-      Booga.send(:include, Blazy::Extensions::ActiveRecord)
+      Booga.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
     end
 
     after(:each) do
@@ -92,7 +92,7 @@ describe "ActiveRecord Fixnum extensions" do
     before(:each) do
       class ModelClass < ActiveModel; end
       class ModelSubClass < ModelClass; end;
-      ModelSubClass.send(:include, Blazy::Extensions::ActiveRecord)
+      ModelSubClass.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
     end
 
     after(:each) do
@@ -112,7 +112,7 @@ describe "ActiveRecord Fixnum extensions" do
         class Foo < ActiveModel; end
         class Bar < Foo; end;
       end
-      Booga::Foo.send(:include, Blazy::Extensions::ActiveRecord)
+      Booga::Foo.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
     end
 
     after(:each) do

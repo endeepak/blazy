@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "Active record" do
-  describe "with_column_name" do
+  describe "column scope" do
     it "should allow search for column equal to value" do
       project_1 = Factory(:project, :name => "be lazy")
       project_2 = Factory(:project, :name => "dont be lazy")
@@ -24,6 +24,30 @@ describe "Active record" do
       project_3 = Factory(:project, :name => 'be lazy', :priority => 1)
 
       Project.with_name('blazy').with_priority(1).collect(&:id).should == [project_1.id]
+    end
+
+    it "should not be defined for already inherited abstract classes" do
+      class Foo; def self.subclasses; [Bar] end; end
+      class Bar < Foo;
+        def self.abstract_class?; true; end;
+        def self.columns; raise ActiveRecord::StatementInvalid.new("Error"); end;
+      end
+      Foo.send(:include, Blazy::Extensions::ActiveRecord::ColumnScope)
+
+      Bar.respond_to?(:with_dummy_column).should be_false
+
+      remove_constants(:Foo, :Bar)
+    end
+
+    it "should not be defined for newly inherited abstract classes" do
+      class AbstractProject < ActiveRecord::Base
+        self.abstract_class = true
+        def self.columns; [stub("column", :name => "dummy_column")]; end
+      end
+
+      AbstractProject.respond_to?(:with_dummy_column).should be_false
+
+      remove_constants(:AbstractProject)
     end
   end
 end
