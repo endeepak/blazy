@@ -29,6 +29,7 @@ module Blazy
           end
         end
       end
+
     end
   end
 end
