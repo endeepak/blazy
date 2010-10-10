@@ -5,8 +5,9 @@ class ActiveRecord::Base
   named_scope :select, lambda { |*columns| {:select => columns} }
 
   class << self
-    alias :where :with
-    alias :- :find
+    {:where => :with, :-  => :find, :f => :first, :a => :all, :l => :last}.each do |new_name, method|
+      eval "alias #{new_name} #{method}"
+    end
   end
 end
 
