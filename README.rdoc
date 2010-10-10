@@ -25,33 +25,34 @@ Lets say you have a active record model called Project.
 
 This is what being lazy means
 
-	Project.find(11) 		-->		Project-11 or Project[11] 				# [id] is preferred
-	Project.all				-->		projects
-	Project.first			-->		project
+	Project.find(11)     -->  Project-11 or Project[11]  # [id] is preferred
+	Project.all          -->  projects
+	Project.first        -->  project
 
 When you want to see some subset of data
 
-	Project.all(:limit => 10) 		-->		10.projects
-	Project.first					-->		1.project
+	Project.all(:limit => 10)  --> 10.projects
+	Project.first              --> 1.project
 
 Scopes generated for each column
 
-	Project.all(:conditions => {:name => 'blazy' }) 	--> 	Project.with_name('blazy')		# you get autocomplete for this
+	Project.all(:conditions => {:name => 'blazy' })  --> Project.with_name('blazy') # you get autocomplete for this
 
 And its fluency using named scope (more like rails 3 way)
 
-	Project.all(:conditions =>....) 					--> 	Project.where(..) or Project.with()
-	Project.all(:limit => 10) 							--> 	Project.limit(10)
-	Project.all(:order => 'name DESC') 					--> 	Project.order('name DESC')
-	Project.all(:select => 'name')						--> 	Project.select('name')
-	Project.all(:conditions => ["name like '%lazy'"]) 	--> 	Project.where("name like '%lazy'")  #can also use 'with' instead of 'where'
+	Project.all(:conditions =>....)                   --> Project.where(..) or Project.with()
+	Project.all(:limit => 10)                         --> Project.limit(10)
+	Project.all(:order => 'name DESC')                --> Project.order('name DESC')
+	Project.all(:select => 'name')                    --> Project.select('name')
+	Project.all(:conditions => ["name like '%lazy'"]) --> Project.where("name like '%lazy'")  #can also use 'with' instead of 'where'
 
-And the power through chaining them
+And the power comes by chaining them
 
 	10.projects.with('priority < 2').order(:priority)
+
 	Project.with_priority(1).limit 10
 
-Lastly and actually least some aliases. These are useful at the end of scope to inspect a model
+Lastly and actually the least some aliases. These are useful at the end of scope to inspect a model
 
 	Project.with_priority(1).f.name
 
@@ -59,12 +60,13 @@ Lastly and actually least some aliases. These are useful at the end of scope to 
 
 == To do
 
-	models 		- to list all models in the project
-	relations 	- to show quick summary of a model's associations
+	models     - to list all models in the project
+	relations  - to show quick summary of a model's associations
 
 == Other useful gems in script/console
 
 Wirble[http://github.com/blackwinter/wirble]
+
 Hirb[http://github.com/cldwalker/hirb]
 
 and add this[http://gist.github.com/609341] to your ~/.irbc
