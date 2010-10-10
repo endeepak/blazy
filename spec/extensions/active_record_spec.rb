@@ -92,8 +92,16 @@ describe "ActiveRecord" do
 
          project = Project-007
 
-         project.should_not be_nil
-         project.id.should be(007)
+         project.should == Project.find(007)
+      end
+    end
+
+    describe "[id]" do
+      it "should find model with id" do
+         Factory(:project, :id => 007)
+         Factory(:project, :id => 9)
+
+         Project[007].should == Project.find(007)
       end
     end
 

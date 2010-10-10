@@ -14,17 +14,14 @@ module Blazy
           end
 
           def add_extension_to_fixnum
-            underscored_model_name = self.name.demodulize.underscore
-            pluralized_underscored_model_name = underscored_model_name.pluralize
-            definition = <<-METHOD_DEFINITION
-                              class ::Fixnum
-                                def #{underscored_model_name}
-                                  #{self}.limit(self)
-                                end
-                                alias #{pluralized_underscored_model_name} #{underscored_model_name}
-                              end
-                          METHOD_DEFINITION
-            eval(definition)
+            eval <<-METHOD
+                    class ::Fixnum
+                      def #{self.singular_name}
+                        #{self}.limit(self)
+                      end
+                      alias #{self.plural_name} #{self.singular_name}
+                    end
+                METHOD
           end
         end
       end

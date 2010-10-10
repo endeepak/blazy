@@ -4,9 +4,7 @@ Blazy read as be_lazy is a handy extension to active record models meant to be u
 
 == Install
 
-Install the gem with:
-
-    sudo gem install blazy   #Note: If you are using rvm to manage ruby versions don't use sudo
+    gem install blazy
 
 == Usage
 
