@@ -1,6 +1,13 @@
 class ActiveRecord::Base
   named_scope :with, lambda { |conditions| {:conditions => conditions } }
   named_scope :limit, lambda { |limit| {:limit => limit} }
+  named_scope :order, lambda { |order| {:order => order} }
+  named_scope :select, lambda { |*columns| {:select => columns} }
+
+  class << self
+    alias :where :with
+    alias :- :find
+  end
 end
 
 Dir.glob(File.join(File.dirname(__FILE__),'active_record','*.rb')).each { |file| require file }

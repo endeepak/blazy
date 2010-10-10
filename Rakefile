@@ -62,3 +62,14 @@ desc 'Clear out RDoc and generated packages'
 task :clean => [:clobber_rdoc, :clobber_package] do
   rm "#{spec.name}.gemspec"
 end
+
+namespace :db do
+  namespace :mysql do
+    desc 'Recreates test database in mysql server'
+    task  :recreate do
+      `mysql -uroot -e "drop database if exists blazy_test"`
+      `mysql -uroot -e "create database if not exists blazy_test"`
+      `mysql -uroot -D blazy_test -e "show tables"`
+    end
+  end
+end
