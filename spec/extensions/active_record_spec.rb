@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "ActiveRecord" do
   describe "limit" do
     it "should limit the results to given number" do
-      project_1 = Factory(:project, :priority => 1)
-      project_2 = Factory(:project, :priority => 1)
-      project_3 = Factory(:project, :priority => 1)
+      project_1 = Factory(:project)
+      project_2 = Factory(:project)
+      project_3 = Factory(:project)
 
       Project.limit(2).collect(&:id).should == [project_1.id, project_2.id]
     end
