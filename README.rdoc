@@ -1,39 +1,70 @@
 == Description
 
-Blazy read as be_lazy is a handy extension to active record models meant to be used in script/console
+Blazy(be lazy) is a fluent extension to active record models to reduce number of key strokes in script/console.
+
+Currently works with rails 2.2.x and 2.3.x
 
 == Install
 
-    gem install blazy
+	gem install blazy
 
 == Usage
 
 Go to script/console in your rails project and type
 
-require 'blazy'
+	require 'blazy'
 
 you are ready to go!!
 
+== How does it help me?
+
+Most of the operations we do in script/console while debugging a problem or looking for model values in database take a lot of key strokes. Blazy provides methods, aliases and a fluent interface to reduce the number of keystrokes to bare minimal.
+
 == Examples
+Lets say you have a active record model called Project.
 
-If you have a model Project.
+This is what being lazy means
 
-	1.project or 2.projects to list projects
+	Project.find(11) 		-->		Project-11 or Project[11] 				# [id] is preferred
+	Project.all				-->		projects
+	Project.first			-->		project
 
-	Project-11 to get project with id 11
+When you want to see some subset of data
 
-== Work in progress
+	Project.all(:limit => 10) 		-->		10.projects
+	Project.first					-->		1.project
 
-	Searching a project as
+Scopes generated for each column
 
-	Project.with_name('blazy') or 5.projects.with_name_like('%zy')
+	Project.all(:conditions => {:name => 'blazy' }) 	--> 	Project.with_name('blazy')		# you get autocomplete for this
 
-	Chaining
+And its fluency using named scope (more like rails 3 way)
 
-	5.projects.with_priority(3..5).not_completed
+	Project.all(:conditions =>....) 					--> 	Project.where(..) or Project.with()
+	Project.all(:limit => 10) 							--> 	Project.limit(10)
+	Project.all(:order => 'name DESC') 					--> 	Project.order('name DESC')
+	Project.all(:select => 'name')						--> 	Project.select('name')
+	Project.all(:conditions => ["name like '%lazy'"]) 	--> 	Project.where("name like '%lazy'")  #can also use 'with' instead of 'where'
+
+And the power through chaining them
+
+	10.projects.with('priority < 2').order(:priority)
+	Project.with_priority(1).limit 10
+
+Lastly and actually least some aliases. These are useful at the end of scope to inspect a model
+
+	Project.with_priority(1).f.name
+
+	Listing them --> f => first, l => last, a => all
+
+== To do
+
+	models 		- to list all models in the project
+	relations 	- to show quick summary of a model's associations
 
 == Other useful gems in script/console
 
-Wirble
+Wirble[http://github.com/blackwinter/wirble]
+Hirb[http://github.com/cldwalker/hirb]
 
-Hirb
+and add this[http://gist.github.com/609341] to your ~/.irbc
