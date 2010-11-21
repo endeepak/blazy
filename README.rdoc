@@ -2,9 +2,11 @@
 
 Blazy(be lazy) is a fluent extension to active record models to reduce number of key strokes in rails console.
 
+For rails 2.x refer to v0.1.2[https://github.com/endeepak/blazy/tree/v0.1.2]
+
 == Install
 
-	gem install blazy -v=0.1.3
+	gem install blazy
 
 == Usage
 
@@ -38,7 +40,7 @@ When you want to see some subset of data
 
 Scopes generated for each column
 
-	Project.all(:conditions => {:name => 'blazy' })  --> Project.with_name('blazy') # you get autocomplete for this
+	Project.where(:name => 'blazy')  --> Project.with_name('blazy') # you get autocomplete for this
 
 And chaining them
 
