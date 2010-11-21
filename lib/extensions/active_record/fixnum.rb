@@ -4,7 +4,7 @@ module Blazy
       module Fixnum
         def self.included(klass)
           klass.extend ClassMethods
-          klass.send(:subclasses).each {|subclass| subclass.add_extension_to_fixnum}
+          klass.send(:descendants).each {|subclass| subclass.add_extension_to_fixnum}
         end
 
         module ClassMethods

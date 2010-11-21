@@ -1,21 +1,21 @@
 require "rubygems"
 require "rake/gempackagetask"
 require "rake/rdoctask"
-require "spec"
-require "spec/rake/spectask"
+require "rspec"
+require "rspec/core/rake_task"
 
-Spec::Rake::SpecTask.new do |t|
-  t.spec_opts = %w(--format specdoc --colour)
-  t.libs = ["spec"]
+RSpec::Core::RakeTask.new do |t|
+  t.rspec_opts = %w(--format documentation --color)
+  t.pattern = 'spec/**/*_spec.rb'
 end
 
 task :default => ["spec"]
 
 spec = Gem::Specification.new do |s|
   s.name              = "blazy"
-  s.version           = "0.1.2"
+  s.version           = "0.1.3"
   s.summary           = "Provides fluent extensions and aliases to active record models"
-  s.description       = "Blazy(be lazy) is a fluent extension to active record models to reduce number of key strokes in script/console"
+  s.description       = "Blazy(be lazy) is a fluent extension to active record models to reduce number of key strokes in rails console"
   s.author            = "Deepak N"
   s.email             = "endeep123@gmail.com"
   s.homepage          = "http://github.com/endeepak/blazy"
@@ -24,10 +24,10 @@ spec = Gem::Specification.new do |s|
   s.rdoc_options      = %w(--main README.rdoc)
   s.files             = %w(Rakefile README.rdoc) + Dir.glob("{spec,lib/**/*}")
   s.require_paths     = ["lib"]
-  s.add_development_dependency('rspec', '= 1.3.0')
-  s.add_development_dependency('activerecord', '= 2.3.5')
-  s.add_development_dependency('active_support', '= 2.3.5')
-  s.add_development_dependency('factory_girl', '= 1.2.4')
+  s.add_development_dependency('rspec', '= 2.1.0')
+  s.add_development_dependency('activerecord', '= 3.0.1')
+  s.add_development_dependency('active_support', '= 3.0.1')
+  s.add_development_dependency('factory_girl', '= 1.3.2')
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
@@ -61,15 +61,4 @@ end
 desc 'Clear out RDoc and generated packages'
 task :clean => [:clobber_rdoc, :clobber_package] do
   rm "#{spec.name}.gemspec"
-end
-
-namespace :db do
-  namespace :mysql do
-    desc 'Recreates test database in mysql server'
-    task  :recreate do
-      `mysql -uroot -e "drop database if exists blazy_test"`
-      `mysql -uroot -e "create database if not exists blazy_test"`
-      `mysql -uroot -D blazy_test -e "show tables"`
-    end
-  end
 end

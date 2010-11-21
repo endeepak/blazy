@@ -21,6 +21,6 @@ module Tableless
   end
 end
 
-class ActiveModel < ActiveRecord::Base
+class ActiveRecord::BaseWithoutTable < ActiveRecord::Base
   include Tableless
 end

@@ -27,7 +27,7 @@ describe "Active record" do
     end
 
     it "should not be defined for already inherited abstract classes" do
-      class Foo; def self.subclasses; [Bar] end; end
+      class Foo; def self.descendants; [Bar] end; end
       class Bar < Foo;
         def self.abstract_class?; true; end;
         def self.columns; raise ActiveRecord::StatementInvalid.new("Error"); end;

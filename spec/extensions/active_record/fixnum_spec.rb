@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe "FixnumExtension", :shared => true do
+shared_examples_for "FixnumExtension" do
   it "should limit to single model" do
     scope = mock("scope")
     klass.expects(:limit).with(1).returns(scope)
@@ -34,7 +34,7 @@ describe "ActiveRecord Fixnum extensions" do
 
   describe "for new second level inheritors of class" do
     before(:each) do
-      class Booga < ActiveModel ; end
+      class Booga < ActiveRecord::BaseWithoutTable ; end
       Booga.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
       class Foo < Booga ; end
       class Bar < Foo; end;
@@ -53,7 +53,7 @@ describe "ActiveRecord Fixnum extensions" do
 
   describe "for existing first level inheritors of class" do
     before(:each) do
-      class Foo; def self.subclasses; [Bar] end; end
+      class Foo; def self.descendants; [Bar] end; end
       class Bar < Foo; end;
       Foo.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
     end
@@ -71,7 +71,7 @@ describe "ActiveRecord Fixnum extensions" do
 
   describe "for existing second level inheritors of class" do
     before(:each) do
-      class Booga; def self.subclasses; [Foo, Bar] end; end
+      class Booga; def self.descendants; [Foo, Bar] end; end
       class Foo < Booga ; end
       class Bar < Foo; end;
       Booga.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
@@ -90,7 +90,7 @@ describe "ActiveRecord Fixnum extensions" do
 
   describe "for camel case named inheritors" do
     before(:each) do
-      class ModelClass < ActiveModel; end
+      class ModelClass < ActiveRecord::BaseWithoutTable; end
       class ModelSubClass < ModelClass; end;
       ModelSubClass.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
     end
@@ -109,7 +109,7 @@ describe "ActiveRecord Fixnum extensions" do
   describe "for inheritors not in defualt name space" do
     before(:each) do
       module Booga
-        class Foo < ActiveModel; end
+        class Foo < ActiveRecord::BaseWithoutTable; end
         class Bar < Foo; end;
       end
       Booga::Foo.send(:include, Blazy::Extensions::ActiveRecord::Fixnum)
@@ -124,5 +124,5 @@ describe "ActiveRecord Fixnum extensions" do
     def models; "bars"; end;
 
     it_should_behave_like "FixnumExtension"
-  end
+   end
 end

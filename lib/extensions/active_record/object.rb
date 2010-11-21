@@ -4,7 +4,7 @@ module Blazy
       module Object
         def self.included(klass)
           klass.extend ClassMethods
-          klass.send(:subclasses).each {|subclass| subclass.add_extension_to_object}
+          klass.send(:descendants).each {|subclass| subclass.add_extension_to_object}
         end
 
         module ClassMethods

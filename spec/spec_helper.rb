@@ -1,16 +1,15 @@
 require 'rubygems'
-gem 'factory_girl', '=1.2.4'
-
-require 'spec'
 require 'active_record'
+require 'rspec'
 require 'factory_girl'
-require File.dirname(__FILE__)+ '/active_model'
+require File.dirname(__FILE__)+ '/base_without_table'
+require File.dirname(__FILE__)+ '/factories'
 
 Dir["#{File.expand_path(File.dirname(__FILE__) + '/../lib/*.rb')}"].each { |file|  require file }
 
 load(File.dirname(__FILE__) + "/db/init.rb")
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.mock_with :mocha
   config.before(:each) { Project.delete_all }
 end
